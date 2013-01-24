@@ -1,0 +1,7 @@
+<profile>
+	<networking>
+		<dns>
+			<hostname>atestinghostname</hostname>
+		</dns>
+	</networking>
+</profile>
