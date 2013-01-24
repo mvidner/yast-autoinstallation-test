@@ -1,7 +1,67 @@
-<profile>
+<?xml version="1.0"?>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
 	<networking>
 		<dns>
 			<hostname>atestinghostname</hostname>
 		</dns>
+                <!--not a part of the test, but the current harness is fetched
+                over the network :-/ -->
+                <interfaces config:type="list">
+                  <interface>
+                    <device>eth0</device>
+                    <bootproto>dhcp</bootproto>
+                    <startmode>auto</startmode>
+                  </interface>
+                </interfaces>
 	</networking>
+<!-- boilerplate to be moved out -->
+  <general>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+    </mode>
+  </general>
+  <users config:type="list">
+    <user>
+      <encrypted config:type="boolean">false</encrypted>
+      <fullname>root</fullname>
+      <gid>0</gid>
+      <home>/root</home>
+      <shell>/bin/bash</shell>
+      <uid>0</uid>
+      <user_password>nots3cr3t</user_password>
+      <username>root</username>
+    </user>
+    <user>
+      <encrypted config:type="boolean">false</encrypted>
+      <fullname>Bernhard M. Wiedemann</fullname>
+      <gid>100</gid>
+      <home>/home/bernhard</home>
+      <shell>/bin/bash</shell>
+      <uid>1000</uid>
+      <user_password>nots3cr3t</user_password>
+      <username>bernhard</username>
+    </user>
+  </users>
+<!-- ? -->
+  <software>
+    <packages config:type="list">
+      <package>yast2-trans-en_US</package>
+    </packages>
+    <patterns config:type="list">
+      <pattern>Minimal</pattern>
+      <pattern>base</pattern>
+    </patterns>
+    <remove-packages config:type="list">
+      <package>kernel-trace</package>
+      <package>kernel-trace-base</package>
+      <package>kernel-xen</package>
+      <package>kernel-xen-base</package>
+      <package>libqt4-sql-sqlite</package>
+      <package>lprng</package>
+      <package>pcmciautils</package>
+      <package>sendmail</package>
+      <package>susehelp_de</package>
+      <package>yast2-control-center-qt</package>
+    </remove-packages>
+  </software>
 </profile>

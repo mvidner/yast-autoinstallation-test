@@ -1,0 +1,29 @@
+#!/bin/sh
+
+: ${ISO=/dist/install/SLES-11-SP2-GM/SLES-11-SP2-DVD-i586-GM-DVD1.iso}
+: ${OS_AUTOINST_DIR=/usr/share/os-autoinst}
+: ${TESTSUITES_DIR=testsuites}
+PORT=8000
+
+# $1 iso
+os_autoinst() {
+    LOCALSERVER=http://10.0.2.2:$PORT # qemu default IP
+    test -f env.sh || cp ${OS_AUTOINST_DIR}/env.sh.sample env.sh
+    NUMDISKS=1 NOINSTALL=1  DISTRI=sles-11  AUTOYAST=$LOCALSERVER/autoinst.xml \
+        ${OS_AUTOINST_DIR}/tools/isotovideo "$1"
+}
+
+fork_webserver() {
+    python -m SimpleHTTPServer $PORT &
+}
+
+kill_webserver() {
+    pkill -f SimpleHTTPServer
+}
+
+for TESTSUITE in ${TESTSUITES_DIR}/*; do
+    (cd $TESTSUITE; fork_webserver)
+    os_autoinst "$ISO"
+    trap kill_webserver EXIT INT TERM
+    kill_webserver
+done
